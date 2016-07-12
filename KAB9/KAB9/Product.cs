@@ -67,6 +67,8 @@
                 Stock = value;
             }
         }
+
+        public int AmountInOrder { get; set; }
         #endregion
 
         public Product(int productid, string productName, string description, double price, int stock)
