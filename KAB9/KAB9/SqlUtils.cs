@@ -33,7 +33,7 @@ namespace KAB9
                     double price = Convert.ToDouble(dBReader["Price"]);
                     int stock = Convert.ToInt32(dBReader["NumberofItems"]);
 
-                    tmpList.Add(new Product(Productid, productName, description, price, stock));
+                    tmpList.Add(new Product(productid, productName, description, price, stock));
                 }
             }
             catch (Exception)
@@ -47,13 +47,13 @@ namespace KAB9
             return tmpList;
         }
 
-        public static void AddProduct(string productName, string description, int price, int addToStock)
+        public static void AddProduct(string productName, string description, double price, int addToStock)
         {
             try
             {
                 SqlCommand dBCommand = new SqlCommand();
                 dBCommand.CommandType = CommandType.StoredProcedure;
-                dBCommand.CommandText = "spCreateContact";
+                dBCommand.CommandText = "spAddProduct";
                 dBCommand.Connection = dBConnection;
                 dBConnection.Open();
 
@@ -65,7 +65,7 @@ namespace KAB9
                 paramDescription.Value = description;
                 dBCommand.Parameters.Add(paramDescription);
 
-                SqlParameter paramPrice = new SqlParameter("@price", SqlDbType.Int);
+                SqlParameter paramPrice = new SqlParameter("@price", SqlDbType.Money);
                 paramPrice.Value = price;
                 dBCommand.Parameters.Add(paramPrice);
 
@@ -89,6 +89,32 @@ namespace KAB9
             {
                 /*lastName = "FEL vid laddning av kontakter från SQL!";*/
             }
+            finally
+            {
+                dBConnection.Close();
+            }
+        }
+
+        public static void DeleteProduct(int productid)
+        {
+            try
+            {
+                SqlCommand dBCommand = new SqlCommand();
+
+                dBCommand.CommandText = $"delete Product where ProductID = '{productid}'";
+                dBCommand.Connection = dBConnection;
+                dBConnection.Open();
+                int result = dBCommand.ExecuteNonQuery();
+                if (result == 0)
+                {
+                    // MÖÖÖÖG
+                }
+            }
+            catch (Exception)
+            {
+                //Response.Write($"<script>alert('{ex.Message}');</script>");
+            }
+
             finally
             {
                 dBConnection.Close();
