@@ -5,6 +5,7 @@ using System.Web.Services.Protocols;
 using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Data;
+using System.Collections.Generic;
 
 namespace KAB9
 {
@@ -357,6 +358,184 @@ namespace KAB9
             }
         }
         public static void DeleteCustomer (int customerid)
+        {
+            try
+            {
+                SqlCommand dBCommand = new SqlCommand();
+
+                dBCommand.CommandText = $"delete Customer where CustomerID = '{customerid}'";
+                dBCommand.Connection = dBConnection;
+                dBConnection.Open();
+                int result = dBCommand.ExecuteNonQuery();
+                if (result == 0)
+                {
+                    // MÖÖÖÖG
+                }
+            }
+            catch (Exception)
+            {
+                //Response.Write($"<script>alert('{ex.Message}');</script>");
+            }
+
+            finally
+            {
+                dBConnection.Close();
+            }
+        }
+        public static List<Order> LoadOrders()
+        {
+            List<Order> tmpList = new List<Order>();
+
+            SqlCommand dBCommand = new SqlCommand("spAddOrder", dBConnection);
+            dBCommand.CommandType = CommandType.StoredProcedure;
+            try
+            {
+                dBConnection.Open();
+                SqlDataReader dBReader = dBCommand.ExecuteReader();
+                while (dBReader.Read())
+                {
+                    int Orderid = Convert.ToInt32(dBReader["OrderID"]);
+                    
+                    dBReader["FirstName"].ToString();
+                    string status = dBReader["Status"].ToString();
+                    string email = dBReader["EmailAddress"].ToString();
+                    string phoneNr = dBReader["PhoneNr"].ToString();
+
+
+                    List<Product> productsToDeliver = new List<Product>();
+                    foreach (var item in )
+                    {
+
+                    }
+
+                    tmpList.Add(new Order(orderID, productsToDeliver));
+                }
+            }
+            catch (Exception)
+            {
+                //<script>alert('{"Message"}');</script>;
+            }
+            finally
+            {
+                dBConnection.Close();
+            }
+            return tmpList;
+        }
+
+        public static void AddCustomer(string firstName, string lastName, string emailAddress, string phoneNr)
+        {
+            try
+            {
+                SqlCommand dBCommand = new SqlCommand();
+                dBCommand.CommandType = CommandType.StoredProcedure;
+                dBCommand.CommandText = "spAddCustomer";
+                dBCommand.Connection = dBConnection;
+                dBConnection.Open();
+
+                SqlParameter paramFirstName = new SqlParameter("@FirstName", SqlDbType.VarChar);
+                paramFirstName.Value = firstName;
+                dBCommand.Parameters.Add(paramFirstName);
+
+                SqlParameter paramLastName = new SqlParameter("@LastName", SqlDbType.VarChar);
+                paramLastName.Value = lastName;
+                dBCommand.Parameters.Add(paramLastName);
+
+                SqlParameter paramEmailAddress = new SqlParameter("@EmailAddress", SqlDbType.VarChar);
+                paramEmailAddress.Value = emailAddress;
+                dBCommand.Parameters.Add(paramEmailAddress);
+
+                SqlParameter paramPhoneNr = new SqlParameter("@phoneNr", SqlDbType.VarChar);
+                paramPhoneNr.Value = phoneNr;
+                dBCommand.Parameters.Add(paramPhoneNr);
+
+                SqlParameter paramCustomerid = new SqlParameter("@customerid", SqlDbType.Int);
+                paramCustomerid.Direction = ParameterDirection.Output;
+                dBCommand.Parameters.Add(paramCustomerid);
+
+                int result = dBCommand.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    /*alert*/
+                    /*firstName = ("ERROR when adding Customer to Database!");*/
+                }
+            }
+            catch (Exception)
+            {
+                /*lastName = "FEL vid tilläg av kund till Databas!";*/
+            }
+            finally
+            {
+                dBConnection.Close();
+            }
+        }
+
+        public static void UpdateCustomer(string firstName, string lastName, string emailAddress, string phoneNr, int customerid)
+        {
+            if (customerid != null)
+            {
+                try
+                {
+                    SqlCommand dBCommand = new SqlCommand("spUpdateCustomer", dBConnection);
+                    dBCommand.CommandType = CommandType.StoredProcedure;
+                    dBConnection.Open();
+
+                    SqlParameter paramCustomerid = new SqlParameter("@customerid", SqlDbType.Int);
+                    paramCustomerid.Value = customerid;
+                    dBCommand.Parameters.Add(paramCustomerid);
+
+                    if (firstName != "")
+                    {
+                        SqlParameter paramFirstName = new SqlParameter("@FirstName", SqlDbType.VarChar);
+                        paramFirstName.Value = firstName;
+                        dBCommand.Parameters.Add(paramFirstName);
+                    }
+
+                    if (lastName != "")
+                    {
+                        SqlParameter paramLastName = new SqlParameter("@LastName", SqlDbType.VarChar);
+                        paramLastName.Value = lastName;
+                        dBCommand.Parameters.Add(paramLastName);
+                    }
+
+                    if (emailAddress != "")
+                    {
+                        SqlParameter paramEmailAddress = new SqlParameter("@EmailAddress", SqlDbType.VarChar);
+                        paramEmailAddress.Value = emailAddress;
+                        dBCommand.Parameters.Add(paramEmailAddress);
+                    }
+
+
+                    if (phoneNr != "")
+                    {
+                        SqlParameter paramPhoneNr = new SqlParameter("@phoneNr", SqlDbType.VarChar);
+                        paramPhoneNr.Value = phoneNr;
+                        dBCommand.Parameters.Add(paramPhoneNr);
+                    }
+
+                    int result = dBCommand.ExecuteNonQuery();
+
+                    if (result == 0)
+                    {
+                        /*alert*/
+                        /*firstName = ("ERROR when adding Customer to Database!");*/
+                    }
+                }
+                catch (Exception)
+                {
+                    /*lastName = "FEL vid uppdatering av kund till Databas!";*/
+                }
+                finally
+                {
+                    dBConnection.Close();
+                }
+            }
+            else
+            { /*alert*/
+              /*VISA EN ALERT!: "Det har skett en miss vid valet av Kund att uppdatera"*/
+            }
+        }
+        public static void DeleteCustomer(int customerid)
         {
             try
             {
