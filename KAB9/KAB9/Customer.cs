@@ -4,14 +4,13 @@
     {
 
 
-        public Customer(int customerID, string firstName, string lastName, string email, string phoneNr, string userName, string companyName, string orgNr)
+        public Customer(int customerID, string firstName, string lastName, string email, string phoneNr, string companyName, string orgNr)
         {
             this.CustomerID = customerID;
             this.FirstName = firstName;
             this.LastName = lastName;
             this.Email = email;
             this.PhoneNr = phoneNr;
-            this.UserName = userName;
             this.CompanyName = companyName;
             this.OrgNr = orgNr;
         }
@@ -104,19 +103,6 @@
             set
             {
                 PhoneNr = value;
-            }
-        }
-
-        public string UserName
-        {
-            get
-            {
-                return UserName;
-            }
-
-            set
-            {
-                UserName = value;
             }
         }
     }

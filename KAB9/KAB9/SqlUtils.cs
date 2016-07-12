@@ -232,11 +232,10 @@ namespace KAB9
                     string lastName = dBReader["LastName"].ToString();
                     string email = dBReader["EmailAddress"].ToString();
                     string phoneNr = dBReader["PhoneNr"].ToString();
-                    string userName = dBReader["UserName"].ToString();
                     string companyName = dBReader["CompanyName"].ToString();
                     string orgNr = dBReader["OrgNr"].ToString();
 
-                    tmpList.Add(new Customer(customerID, firstName, lastName, email, phoneNr, userName, companyName, orgNr));
+                    tmpList.Add(new Customer(customerID, firstName, lastName, email, phoneNr, companyName, orgNr));
                 }
             }
             catch (Exception)
@@ -250,7 +249,7 @@ namespace KAB9
             return tmpList;
         }
 
-        public static void AddCustomer(string userName, string password, string firstName, string lastName, string companyName, string orgNr, string emailAddress, string phoneNr)
+        public static void AddCustomer(string password, string firstName, string lastName, string companyName, string orgNr, string emailAddress, string phoneNr)
         {
             try
             {
@@ -258,11 +257,7 @@ namespace KAB9
                 dBCommand.CommandType = CommandType.StoredProcedure;
                 dBCommand.CommandText = "spAddCustomer";
                 dBCommand.Connection = dBConnection;
-                dBConnection.Open();
-
-                SqlParameter paramUserName = new SqlParameter("@UserName", SqlDbType.VarChar);
-                paramUserName.Value = userName;
-                dBCommand.Parameters.Add(paramUserName);
+                dBConnection.Open();;
 
                 SqlParameter paramPassword = new SqlParameter("@Password", SqlDbType.VarChar);
                 paramPassword.Value = password;
@@ -314,7 +309,7 @@ namespace KAB9
             }
         }
 
-        public static void UpdateCustomer(int customerid, string userName, string password, string firstName, string lastName, string companyName, string orgNr, string emailAddress, string phoneNr)
+        public static void UpdateCustomer(int customerid, string password, string firstName, string lastName, string companyName, string orgNr, string emailAddress, string phoneNr)
         {
             if (customerid != null)
             {
@@ -327,13 +322,6 @@ namespace KAB9
                     SqlParameter paramCustomerid = new SqlParameter("@customerid", SqlDbType.Int);
                     paramCustomerid.Value = customerid;
                     dBCommand.Parameters.Add(paramCustomerid);
-
-                    if (userName != "")
-                    {
-                        SqlParameter paramUserName = new SqlParameter("@UserName", SqlDbType.VarChar);
-                        paramUserName.Value = userName;
-                        dBCommand.Parameters.Add(paramUserName);
-                    }
 
                     if (password != "")
                     {
@@ -435,7 +423,7 @@ namespace KAB9
         }
         #endregion
 
-        #region OrdersCRUD
+        #region OrderCRUD
         public static List<Order> LoadOrders(string orderStatus)
         {
             List<Order> tmpList = new List<Order>();
@@ -456,6 +444,7 @@ namespace KAB9
                 while (dBReader.Read())
                 {
                     int orderid = Convert.ToInt32(dBReader["OrderID"]);
+                    int customerid = Convert.ToInt32(dBReader["CustomerID"]);
                     string status = dBReader["Status"].ToString();
                     DateTime plannedShipping = DateTime.Parse(dBReader["plannedShipping"].ToString());
                     int sumPrice = Convert.ToInt32(dBReader["SumPrice"]);
@@ -469,7 +458,7 @@ namespace KAB9
                     //     productsToDeliver.Add(item);
 
 
-                    tmpList.Add(new Order(orderid, productsToDeliver, status, plannedShipping, sumPrice));
+                    tmpList.Add(new Order(orderid, customerid, productsToDeliver, status, plannedShipping, sumPrice));
                 }
             }
             catch (Exception)
@@ -483,65 +472,69 @@ namespace KAB9
             return tmpList;
         }
 
-        //public static void CreateOrder(string firstName, string lastName, string emailAddress, string phoneNr)
-        //{
-        //    try
-        //    {
-        //        SqlCommand dBCommand = new SqlCommand();
-        //        dBCommand.CommandType = CommandType.StoredProcedure;
-        //        dBCommand.CommandText = "spAddCustomer";
-        //        dBCommand.Connection = dBConnection;
-        //        dBConnection.Open();
+        public static void CreateOrder(int productid, int customerid, List<Product> productsToDeliver, DateTime plannedShipping, double sumPrice)
+        {
+            try
+            {
+                SqlCommand dBCommand = new SqlCommand();
+                dBCommand.CommandType = CommandType.StoredProcedure;
+                dBCommand.CommandText = "spAddCustomer";
+                dBCommand.Connection = dBConnection;
+                dBConnection.Open();
 
-        //        SqlParameter paramFirstName = new SqlParameter("@FirstName", SqlDbType.VarChar);
-        //        paramFirstName.Value = firstName;
-        //        dBCommand.Parameters.Add(paramFirstName);
+                SqlParameter paramProductid = new SqlParameter("@ProductID", SqlDbType.Int);
+                paramProductid.Value = productid;
+                dBCommand.Parameters.Add(paramProductid);
 
-        //        SqlParameter paramLastName = new SqlParameter("@LastName", SqlDbType.VarChar);
-        //        paramLastName.Value = lastName;
-        //        dBCommand.Parameters.Add(paramLastName);
+                SqlParameter paramCustomerid = new SqlParameter("@CustomerID", SqlDbType.Int);
+                paramCustomerid.Value = customerid;
+                dBCommand.Parameters.Add(paramCustomerid);
 
-        //        SqlParameter paramEmailAddress = new SqlParameter("@EmailAddress", SqlDbType.VarChar);
-        //        paramEmailAddress.Value = emailAddress;
-        //        dBCommand.Parameters.Add(paramEmailAddress);
+                SqlParameter paramPlannedShipping = new SqlParameter("@PlannedShipping", SqlDbType.DateTime);
+                paramPlannedShipping.Value = plannedShipping;
+                dBCommand.Parameters.Add(paramPlannedShipping);
 
-        //        SqlParameter paramPhoneNr = new SqlParameter("@phoneNr", SqlDbType.VarChar);
-        //        paramPhoneNr.Value = phoneNr;
-        //        dBCommand.Parameters.Add(paramPhoneNr);
+                SqlParameter paramOrderDate = new SqlParameter("@OrderDate", SqlDbType.DateTime);
+                paramOrderDate.Value = DateTime.Now;
+                dBCommand.Parameters.Add(paramOrderDate);
 
-        //        SqlParameter paramCustomerid = new SqlParameter("@customerid", SqlDbType.Int);
-        //        paramCustomerid.Direction = ParameterDirection.Output;
-        //        dBCommand.Parameters.Add(paramCustomerid);
+                SqlParameter paramSumPrice = new SqlParameter("@phoneNr", SqlDbType.Money);
+                paramSumPrice.Value = sumPrice;
+                dBCommand.Parameters.Add(paramSumPrice);
 
-        //        int result = dBCommand.ExecuteNonQuery();
+                SqlParameter paramOrderid = new SqlParameter("@OrderID", SqlDbType.Int);
+                paramOrderid.Direction = ParameterDirection.Output;
+                dBCommand.Parameters.Add(paramOrderid);
 
-        //        if (result == 0)
-        //        {
-        //            /*alert*/
-        //            /*firstName = ("ERROR when adding Customer to Database!");*/
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        /*lastName = "FEL vid tilläg av kund till Databas!";*/
-        //    }
-        //    finally
-        //    {
-        //        dBConnection.Close();
-        //    }
-        //}
+                int result = dBCommand.ExecuteNonQuery();
 
-        public static void UpdateOrder(int orderid, List<Product> productsToDeliver, string status, DateTime plannedShipping, int sumPrice)
+                if (result == 0)
+                {
+                    /*alert*/
+                    /*firstName = ("ERROR when adding Customer to Database!");*/
+                }
+            }
+            catch (Exception)
+            {
+                /*lastName = "FEL vid tilläg av kund till Databas!";*/
+            }
+            finally
+            {
+                dBConnection.Close();
+            }
+        }
+
+        public static void UpdateOrder(int orderid, List<Product> productsToDeliver, string status, DateTime plannedShipping, double sumPrice)
         {
             if (orderid != null)
             {
                 try
                 {
-                    SqlCommand dBCommand = new SqlCommand("spUpdateCustomer", dBConnection);
+                    SqlCommand dBCommand = new SqlCommand("spUpdateOrder", dBConnection);
                     dBCommand.CommandType = CommandType.StoredProcedure;
                     dBConnection.Open();
 
-                    SqlParameter paramOrderid = new SqlParameter("@customerid", SqlDbType.Int);
+                    SqlParameter paramOrderid = new SqlParameter("@Orderid", SqlDbType.Int);
                     paramOrderid.Value = orderid;
                     dBCommand.Parameters.Add(paramOrderid);
 
@@ -552,6 +545,12 @@ namespace KAB9
                         dBCommand.Parameters.Add(paramStatus);
                     }
 
+                    if (sumPrice != null)
+                    {
+                        SqlParameter paramSumPrice = new SqlParameter("@SumPrice", SqlDbType.Money);
+                        paramSumPrice.Value = sumPrice;
+                        dBCommand.Parameters.Add(paramSumPrice);
+                    }
                         SqlParameter paramPlannedShipping = new SqlParameter("@PlannedShipping", SqlDbType.DateTime);
                         paramPlannedShipping.Value = plannedShipping;
                         dBCommand.Parameters.Add(paramPlannedShipping);
@@ -566,7 +565,7 @@ namespace KAB9
                     if (result == 0)
                     {
                         /*alert*/
-                        /*firstName = ("ERROR when adding Customer to Database!");*/
+                        /*firstName = ("ERROR when adding Order to Database!");*/
                     }
                 }
                 catch (Exception)
@@ -588,6 +587,7 @@ namespace KAB9
             try
             {
                 SqlCommand dBCommand = new SqlCommand($"delete Order where OrderID = '{orderid}'", dBConnection);
+                dBCommand.CommandType = CommandType.StoredProcedure;
                 dBConnection.Open();
 
                 int result = dBCommand.ExecuteNonQuery();
@@ -608,6 +608,92 @@ namespace KAB9
         }
 
         #endregion
+
+        public static List<Order> LoadOrderHistory()
+        {
+            List<Order> tmpList = new List<Order>();
+
+            //
+            //  
+            //      
+            // 
+            SqlCommand dBCommand = new SqlCommand("spAddProduct", dBConnection);
+            dBCommand.CommandType = CommandType.StoredProcedure;
+            try
+            {
+                dBConnection.Open();
+                SqlDataReader dBReader = dBCommand.ExecuteReader();
+                while (dBReader.Read())
+                {
+                    int orderid = Convert.ToInt32(dBReader["OrderID"]);
+                    int customerid = Convert.ToInt32(dBReader["CustomerID"]);
+                    string status = dBReader["Status"].ToString();
+                    DateTime plannedShipping = DateTime.Parse(dBReader["plannedShipping"].ToString());
+                    int sumPrice = Convert.ToInt32(dBReader["SumPrice"]);
+
+                    List<Product> productsToDeliver = new List<Product>();
+
+                    tmpList.Add(new Order(orderid, customerid, productsToDeliver, status, plannedShipping, sumPrice));
+                }
+            }
+            catch (Exception)
+            {
+                //Response.Write($"<script>alert('{ex.Message}');</script>");
+            }
+            finally
+            {
+                dBConnection.Close();
+            }
+            return tmpList;
+        }
+        public static void AddToOrderHistory(int productid, int customerid, int amountToDeliver, DateTime plannedShipping, double sumPrice)
+        {
+            try
+            {
+                SqlCommand dBCommand = new SqlCommand("spAddToOrderHistory", dBConnection);
+                dBCommand.CommandType = CommandType.StoredProcedure;
+                dBConnection.Open();
+
+                SqlParameter paramProductid = new SqlParameter("@Productid", SqlDbType.Int);
+                paramProductid.Value = productid;
+                dBCommand.Parameters.Add(paramProductid);
+
+                SqlParameter paramCustomerid = new SqlParameter("@Customerid", SqlDbType.Int);
+                paramCustomerid.Value = customerid;
+                dBCommand.Parameters.Add(paramCustomerid);
+
+                SqlParameter paramSumPrice = new SqlParameter("@SumPrice", SqlDbType.Money);
+                paramSumPrice.Value = sumPrice;
+                dBCommand.Parameters.Add(paramSumPrice);
+
+                SqlParameter paramAmountToDeliver = new SqlParameter("@amountToDeliver", SqlDbType.Int);
+                paramAmountToDeliver.Value = amountToDeliver;
+                dBCommand.Parameters.Add(paramAmountToDeliver);
+
+                SqlParameter paramPlannedShipping = new SqlParameter("@PlannedShipping", SqlDbType.DateTime);
+                paramPlannedShipping.Value = plannedShipping;
+                dBCommand.Parameters.Add(paramPlannedShipping);
+
+
+
+                int result = dBCommand.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    /*alert*/
+                    /*firstName = ("ERROR when adding contact to Database!");*/
+                }
+            }
+            catch (Exception)
+            {
+                /*lastName = "FEL vid laddning av kontakter från SQL!";*/
+            }
+            finally
+            {
+                dBConnection.Close();
+            }
+        }
+
 
     }
 
