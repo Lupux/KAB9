@@ -20,25 +20,23 @@ namespace KAB9
         {
             List<Product> tmpList = new List<Product>();
 
-            //SqlCommand dBCommand = new SqlCommand("select " +
-            //                                      "* from Product and " +
-            //                                      "Stock " +
-            //                                      "order by ProductId", dBConnection);
-            SqlCommand dBCommand = new SqlCommand("spAddProduct", dBConnection);
-            dBCommand.CommandType = CommandType.StoredProcedure;
+            SqlCommand dBCommand = new SqlCommand("select " +
+                                                  "P.ProductId, P.ProductName, P.Price, P.Descriprion, S.ItemsInStock " +
+                                                  "from Product as P LEFT JOIN Stock as S on P.ProductId = S.ProductId " +
+                                                  "order by ProductId", dBConnection);
             try
             {
                 dBConnection.Open();
                 SqlDataReader dBReader = dBCommand.ExecuteReader();
                 while (dBReader.Read())
                 {
-                    int productid = Convert.ToInt32(dBReader["ProductID"]);
+                    int productid = Convert.ToInt32(dBReader["ProductId"]);
                     string productName = dBReader["ProductName"].ToString();
-                    string description = dBReader["Description"].ToString();
                     double price = Convert.ToDouble(dBReader["Price"]);
-                    int stock = Convert.ToInt32(dBReader["NumberofItems"]);
+                    string description = dBReader["Description"].ToString();
+                    int itemsInStock = Convert.ToInt32(dBReader["ItemsInStock"]);
 
-                    tmpList.Add(new Product(productid, productName, description, price, stock));
+                    tmpList.Add(new Product(productid, productName, description, price, itemsInStock));
                 }
             }
             catch (Exception)

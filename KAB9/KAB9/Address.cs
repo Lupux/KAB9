@@ -1,6 +1,6 @@
 ﻿namespace KAB9
 {
-    public class Address : Customer
+    public class Address
     {
         private int addressID;
         private string city;
