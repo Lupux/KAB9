@@ -29,16 +29,16 @@
             }
         }
 
-        public int Productid
+        public int ProductId
         {
             get
             {
-                return Productid;
+                return ProductId;
             }
 
             set
             {
-                Productid = value;
+                ProductId = value;
             }
         }
 
@@ -55,29 +55,29 @@
             }
         }
 
-        public int Stock
+        public int ItemsInStock
         {
             get
             {
-                return Stock;
+                return ItemsInStock;
             }
 
             set
             {
-                Stock = value;
+                ItemsInStock = value;
             }
         }
 
         public int AmountInOrder { get; set; }
         #endregion
 
-        public Product(int productid, string productName, string description, double price, int stock)
+        public Product(int productId, string productName, string description, double price, int itemsInStock)
         {
-            this.Productid = productid;
+            this.ProductId = productId;
             this.ProductName = productName;
             this.Description = description;
             this.Price = price;
-            this.Stock = stock;
+            this.ItemsInStock = itemsInStock;
         }
     }
 }
