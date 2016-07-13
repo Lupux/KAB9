@@ -99,6 +99,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="MasterProspect.aspx" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -112,6 +113,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="MasterProspect.Master" />
     <None Include="scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
@@ -135,6 +137,20 @@
     <Compile Include="Address.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="HashingUtils.cs" />
+    <Compile Include="MasterProspect.aspx.cs">
+      <DependentUpon>MasterProspect.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterProspect.aspx.designer.cs">
+      <DependentUpon>MasterProspect.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MasterProspect.Master.cs">
+      <DependentUpon>MasterProspect.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterProspect.Master.designer.cs">
+      <DependentUpon>MasterProspect.Master</DependentUpon>
+    </Compile>
     <Compile Include="Master_admin.cs" />
     <Compile Include="Master_Kund.cs" />
     <Compile Include="Master_Prospect.cs" />

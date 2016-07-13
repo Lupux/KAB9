@@ -1,0 +1,44 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterProspect.master.cs" Inherits="KAB9.MasterProspect" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>MasterProspect</title>
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="Scripts/jquery-1.9.1.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <div class="jumbotron" style="background-color: green; text-align: center">
+        <h1>Kontorsprylar AB</h1>
+        <p>Vi tillhandahåller kontorsmaterial av högsta kvalitet</p>
+    </div>
+    <div class="container">
+    </div>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Home</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Produkter</a></li>
+                <li><a href="#">Om Oss</a></li>
+                <li><a href="#">Kontakta Oss</a></li>
+                <li>
+                    <button type="button" class="btn btn-default">Registrera dig</button></li>
+                <li>&nbsp</li>
+                <li>
+                    <button type="button" class="btn btn-default">Logga in</button></li>
+            </ul>
+        </div>
+    </nav>
+    <form id="form1" runat="server">
+        <div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+        </div>
+    </form>
+</body>
+</html>
