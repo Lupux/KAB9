@@ -213,21 +213,19 @@ namespace KAB9
         public static List<Customer> LoadCustomers()
         {
             List<Customer> tmpList = new List<Customer>();
+            List<Address> tmpAddressList = new List<Address>();
 
-            //SqlCommand dBCommand = new SqlCommand("select " +
-            //                                      "* from Customer "+
-            //                                      "order by CustomerId", dBConnection);
-
-
-            SqlCommand dBCommand = new SqlCommand("spAddCustomer", dBConnection);
-            dBCommand.CommandType = CommandType.StoredProcedure;
+            SqlCommand dBCommand = new SqlCommand("select " +
+                                                  "* from Customer as C LEFT JOIN CtA on C.CustomerId = CtA.CID " +
+                                                  "LEFT JOIN Address as A on CtA.AID = A.id "+ 
+                                                  "order by CustomerId", dBConnection);
             try
             {
                 dBConnection.Open();
                 SqlDataReader dBReader = dBCommand.ExecuteReader();
                 while (dBReader.Read())
                 {
-                    int customerID = Convert.ToInt32(dBReader["CustomerID"]);
+                    int customerId = Convert.ToInt32(dBReader["CustomerID"]);
                     string firstName = dBReader["FirstName"].ToString();
                     string lastName = dBReader["LastName"].ToString();
                     string email = dBReader["EmailAddress"].ToString();
@@ -235,7 +233,15 @@ namespace KAB9
                     string companyName = dBReader["CompanyName"].ToString();
                     string orgNr = dBReader["OrgNr"].ToString();
 
-                    tmpList.Add(new Customer(customerID, firstName, lastName, email, phoneNr, companyName, orgNr));
+                    int addressId = Convert.ToInt32(dBReader["id"]);
+                    string street = dBReader["street"].ToString();
+                    string zipCode = dBReader["zipcode"].ToString();
+                    string city = dBReader["city"].ToString();
+                    string country = dBReader["country"].ToString();
+
+
+                    tmpAddressList.Add(new Address(addressId, street, zipCode, city, country));
+                    tmpList.Add(new Customer(customerId, firstName, lastName, email, phoneNr, companyName, orgNr, tmpAddressList));
                 }
             }
             catch (Exception)
@@ -428,8 +434,9 @@ namespace KAB9
         {
             List<Order> tmpList = new List<Order>();
 
-            SqlCommand dBCommand = new SqlCommand("spAddOrder", dBConnection);
-            dBCommand.CommandType = CommandType.StoredProcedure;
+            SqlCommand dBCommand = new SqlCommand("select " +
+                                                  "* from Order " +
+                                                  "order by orderId", dBConnection);
             try
             {   
                 //
@@ -472,19 +479,15 @@ namespace KAB9
             return tmpList;
         }
 
-        public static void CreateOrder(int productid, int customerid, List<Product> productsToDeliver, DateTime plannedShipping, double sumPrice)
+        public static void CreateOrder(int orderid, int customerid, List<Product> productsToDeliver, DateTime plannedShipping, double sumPrice)
         {
             try
             {
                 SqlCommand dBCommand = new SqlCommand();
                 dBCommand.CommandType = CommandType.StoredProcedure;
-                dBCommand.CommandText = "spAddCustomer";
+                dBCommand.CommandText = "spAddOrder";
                 dBCommand.Connection = dBConnection;
                 dBConnection.Open();
-
-                SqlParameter paramProductid = new SqlParameter("@ProductID", SqlDbType.Int);
-                paramProductid.Value = productid;
-                dBCommand.Parameters.Add(paramProductid);
 
                 SqlParameter paramCustomerid = new SqlParameter("@CustomerID", SqlDbType.Int);
                 paramCustomerid.Value = customerid;

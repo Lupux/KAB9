@@ -113,6 +113,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Address.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="HashingUtils.cs" />
     <Compile Include="Master_admin.cs" />
