@@ -1,9 +1,9 @@
-﻿namespace KAB9
+﻿using System.Collections.Generic;
+
+namespace KAB9
 {
     public class Customer
     {
-
-
         public Customer(int customerID, string firstName, string lastName, string email, string phoneNr, string companyName, string orgNr)
         {
             this.CustomerID = customerID;
@@ -15,6 +15,19 @@
             this.OrgNr = orgNr;
         }
 
+        public Customer(int customerID, string firstName, string lastName, string email, string phoneNr, string companyName, string orgNr, List<Address> tmpAddressList) : this(customerID, firstName, lastName, email, phoneNr, companyName, orgNr)
+        {
+            this.Addresses = tmpAddressList;
+        }
+
+        public List<Address> Addresses
+        {
+            get
+            { return Addresses; }
+            private set
+            { Addresses = value; }
+        }
+
         public string CompanyName
         {
             get
@@ -22,7 +35,7 @@
                 return CompanyName;
             }
 
-            set
+            private set
             {
                 CompanyName = value;
             }
@@ -35,7 +48,7 @@
                 return CustomerID;
             }
 
-            set
+            private set
             {
                 CustomerID = value;
             }
@@ -48,7 +61,7 @@
                 return Email;
             }
 
-            set
+            private set
             {
                 Email = value;
             }
@@ -61,7 +74,7 @@
                 return FirstName;
             }
 
-            set
+            private set
             {
                 FirstName = value;
             }
@@ -74,7 +87,7 @@
                 return LastName;
             }
 
-            set
+            private set
             {
                 LastName = value;
             }
@@ -87,7 +100,7 @@
                 return OrgNr;
             }
 
-            set
+            private set
             {
                 OrgNr = value;
             }
@@ -100,7 +113,7 @@
                 return PhoneNr;
             }
 
-            set
+            private set
             {
                 PhoneNr = value;
             }
