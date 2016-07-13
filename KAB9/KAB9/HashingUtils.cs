@@ -25,7 +25,7 @@ namespace KAB9
         static public string Hashing(string stringToHash, string salt="")
         {
             /*
-             * Check if values are hasable else return value or throw exeption. To be decided. 
+             * Check if values are hashable else return value or throw exeption. To be decided. 
              */
 
             /*
@@ -34,7 +34,7 @@ namespace KAB9
              */
 
             /*
-             *Here will the hashing algorithem be used. 
+             *Here will the hashing algorithm be used. 
              */
 
             return stringToHash;
@@ -43,27 +43,27 @@ namespace KAB9
         /// <summary>
         /// This method is used to decrypt an encrypted string using the algorithm and the salt string.
         /// </summary>
-        /// <param name="HasedString">String to be deHashed</param>
+        /// <param name="HashedString">String to be deHashed</param>
         /// <param name="salt">The value string that was used to make decryption harder. If none is provided the string is set to empty.("")</param>
         /// <returns> An washed and cleaned string</returns>
-        static public string DeHashing(string HasedString, string salt="")
+        static public string DeHashing(string HashedString, string salt="")
         {
             /*
-             *Check if string is hasched. Return string if not or throw exeption. To be decided 
+             *Check if string is hashed. Return string if not or throw exeption. To be decided 
              */
 
             /*
-            *Here will the dehashing algorithem be used. 
+            *Here, the dehashing algorithm will be used. 
             */
 
             /*
-            *Here will the desalting be done.
+            *Here, the desalting will be done.
             * 
             */
 
 
 
-            return HasedString;
+            return HashedString;
         }
 
         /*

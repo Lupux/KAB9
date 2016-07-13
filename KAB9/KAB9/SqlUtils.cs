@@ -460,6 +460,7 @@ namespace KAB9
                     List<Product> productsToDeliver = new List<Product>();
                     //
                     // Här är jag lite osäker på hur det kommer se ut i tabellerna med ordrar.
+                    // I dagsläget blir det kanske att man hämtar från tabellen 
                     //
                     //foreach (var item in ListOfProductsInOrder)
                     //     productsToDeliver.Add(item);
