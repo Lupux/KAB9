@@ -20,25 +20,23 @@ namespace KAB9
         {
             List<Product> tmpList = new List<Product>();
 
-            //SqlCommand dBCommand = new SqlCommand("select " +
-            //                                      "* from Product and " +
-            //                                      "Stock " +
-            //                                      "order by ProductId", dBConnection);
-            SqlCommand dBCommand = new SqlCommand("spAddProduct", dBConnection);
-            dBCommand.CommandType = CommandType.StoredProcedure;
+            SqlCommand dBCommand = new SqlCommand("select " +
+                                                  "P.ProductId, P.ProductName, P.Price, P.Descriprion, S.ItemsInStock " +
+                                                  "from Product as P LEFT JOIN Stock as S on P.ProductId = S.ProductId " +
+                                                  "order by ProductId", dBConnection);
             try
             {
                 dBConnection.Open();
                 SqlDataReader dBReader = dBCommand.ExecuteReader();
                 while (dBReader.Read())
                 {
-                    int productid = Convert.ToInt32(dBReader["ProductID"]);
+                    int productid = Convert.ToInt32(dBReader["ProductId"]);
                     string productName = dBReader["ProductName"].ToString();
-                    string description = dBReader["Description"].ToString();
                     double price = Convert.ToDouble(dBReader["Price"]);
-                    int stock = Convert.ToInt32(dBReader["NumberofItems"]);
+                    string description = dBReader["Description"].ToString();
+                    int itemsInStock = Convert.ToInt32(dBReader["ItemsInStock"]);
 
-                    tmpList.Add(new Product(productid, productName, description, price, stock));
+                    tmpList.Add(new Product(productid, productName, description, price, itemsInStock));
                 }
             }
             catch (Exception)
@@ -52,7 +50,7 @@ namespace KAB9
             return tmpList;
         }
 
-        public static void AddProduct(string productName, string description, double price, int addToStock)
+        public static void CreateProduct(string productName, string description, double price, int itemsInStock)
         {
             try
             {
@@ -74,13 +72,13 @@ namespace KAB9
                 paramPrice.Value = price;
                 dBCommand.Parameters.Add(paramPrice);
 
-                SqlParameter paramAddToStock = new SqlParameter("@addToStock", SqlDbType.Int);
-                paramAddToStock.Value = addToStock;
-                dBCommand.Parameters.Add(paramAddToStock);
+                SqlParameter paramItemsInStock = new SqlParameter("@ItemsInStock", SqlDbType.Int);
+                paramItemsInStock.Value = itemsInStock;
+                dBCommand.Parameters.Add(paramItemsInStock);
 
-                SqlParameter paramProductid = new SqlParameter("@productid", SqlDbType.Int);
-                paramProductid.Direction = ParameterDirection.Output;
-                dBCommand.Parameters.Add(paramProductid);
+                SqlParameter paramnew_id = new SqlParameter("@pid", SqlDbType.Int);
+                paramnew_id.Direction = ParameterDirection.Output;
+                dBCommand.Parameters.Add(paramnew_id);
 
                 int result = dBCommand.ExecuteNonQuery();
 
@@ -110,8 +108,8 @@ namespace KAB9
                     dBCommand.CommandType = CommandType.StoredProcedure;
                     dBConnection.Open();
 
-                    SqlParameter paramProductID = new SqlParameter("@productID", SqlDbType.Int);
-                    paramProductID.Value = productName;
+                    SqlParameter paramProductID = new SqlParameter("@pid", SqlDbType.Int);
+                    paramProductID.Value = productID;
                     dBCommand.Parameters.Add(paramProductID);
 
                     if (productName != "")
@@ -207,6 +205,60 @@ namespace KAB9
                 dBConnection.Close();
             }
         }
+
+        public static void IncreaseStock(int productid, int stockIncreasedBy)
+        {
+            try
+            {
+                SqlCommand dBCommand = new SqlCommand("spChangeStock", dBConnection);
+                dBCommand.CommandType = CommandType.StoredProcedure;
+                dBConnection.Open();
+
+                SqlParameter paramProductID = new SqlParameter("@pid", SqlDbType.Int);
+                paramProductID.Value = productid;
+                dBCommand.Parameters.Add(paramProductID);
+
+                SqlParameter paramStockIncreasedBy = new SqlParameter("@productName", SqlDbType.Int);
+                paramStockIncreasedBy.Value = stockIncreasedBy;
+                dBCommand.Parameters.Add(paramStockIncreasedBy);
+            }
+            catch
+            {
+                /* ALERT! MISTAKES WERE MADE! */
+            }
+            finally
+            {
+                dBConnection.Close();
+            }
+        }
+        public static void DecreaseStock(int productid, int stockChange)
+        {
+            int stockDecreasedBy = 0;
+            stockDecreasedBy -= stockChange;
+
+            try
+            {
+                SqlCommand dBCommand = new SqlCommand("spChangeStock", dBConnection);
+                dBCommand.CommandType = CommandType.StoredProcedure;
+                dBConnection.Open();
+
+                SqlParameter paramProductID = new SqlParameter("@pid", SqlDbType.Int);
+                paramProductID.Value = productid;
+                dBCommand.Parameters.Add(paramProductID);
+
+                SqlParameter paramStockDereasedBy = new SqlParameter("@productName", SqlDbType.Int);
+                paramStockDereasedBy.Value = stockDecreasedBy;
+                dBCommand.Parameters.Add(paramStockDereasedBy);
+            }
+            catch
+            {
+                /* ALERT! MISTAKES WERE MADE! */
+            }
+            finally
+            {
+                dBConnection.Close();
+            }
+        }
         #endregion
 
         #region CustomerCRUD
@@ -217,7 +269,7 @@ namespace KAB9
 
             SqlCommand dBCommand = new SqlCommand("select " +
                                                   "* from Customer as C LEFT JOIN CtA on C.CustomerId = CtA.CID " +
-                                                  "LEFT JOIN Address as A on CtA.AID = A.id "+ 
+                                                  "LEFT JOIN Address as A on CtA.AID = A.id " +
                                                   "order by CustomerId", dBConnection);
             try
             {
@@ -263,7 +315,7 @@ namespace KAB9
                 dBCommand.CommandType = CommandType.StoredProcedure;
                 dBCommand.CommandText = "spAddCustomer";
                 dBCommand.Connection = dBConnection;
-                dBConnection.Open();;
+                dBConnection.Open(); ;
 
                 SqlParameter paramPassword = new SqlParameter("@Password", SqlDbType.VarChar);
                 paramPassword.Value = password;
@@ -438,7 +490,7 @@ namespace KAB9
                                                   "* from Order " +
                                                   "order by orderId", dBConnection);
             try
-            {   
+            {
                 //
                 // Anger vilken status ordrarna man vill titta på har. Så att man kan välja att inte titta på alla ordrar samtidigt.
                 //
@@ -460,6 +512,7 @@ namespace KAB9
                     List<Product> productsToDeliver = new List<Product>();
                     //
                     // Här är jag lite osäker på hur det kommer se ut i tabellerna med ordrar.
+                    // I dagsläget blir det kanske att man hämtar från tabellen 
                     //
                     //foreach (var item in ListOfProductsInOrder)
                     //     productsToDeliver.Add(item);
@@ -554,10 +607,10 @@ namespace KAB9
                         paramSumPrice.Value = sumPrice;
                         dBCommand.Parameters.Add(paramSumPrice);
                     }
-                        SqlParameter paramPlannedShipping = new SqlParameter("@PlannedShipping", SqlDbType.DateTime);
-                        paramPlannedShipping.Value = plannedShipping;
-                        dBCommand.Parameters.Add(paramPlannedShipping);
-                    
+                    SqlParameter paramPlannedShipping = new SqlParameter("@PlannedShipping", SqlDbType.DateTime);
+                    paramPlannedShipping.Value = plannedShipping;
+                    dBCommand.Parameters.Add(paramPlannedShipping);
+
 
                     //
                     // På något sätt mäta hur Orderlistan ska förändras och utföra det mot SQL.
@@ -657,7 +710,7 @@ namespace KAB9
                 dBCommand.CommandType = CommandType.StoredProcedure;
                 dBConnection.Open();
 
-                SqlParameter paramProductid = new SqlParameter("@Productid", SqlDbType.Int);
+                SqlParameter paramProductid = new SqlParameter("@pid", SqlDbType.Int);
                 paramProductid.Value = productid;
                 dBCommand.Parameters.Add(paramProductid);
 
