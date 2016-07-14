@@ -1,9 +1,8 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterProspect.Master" AutoEventWireup="true" CodeBehind="MasterProspect.aspx.cs" Inherits="KAB9.MasterProspect1" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterCustomer.Master" AutoEventWireup="true" CodeBehind="MasterCustomer.aspx.cs" Inherits="KAB9.MasterCustomer1" %>
 <%--<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>--%>
-
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="table-responsive">
+<asp:Content ID="Content2" ContentPlaceHolderID="main" runat="server">
+        <div class="table-responsive">
         <table class="table table-hover">
             <thead>
                 <tr>
