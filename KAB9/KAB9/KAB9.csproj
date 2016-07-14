@@ -183,9 +183,6 @@
     <Compile Include="MasterProspect.Master.designer.cs">
       <DependentUpon>MasterProspect.Master</DependentUpon>
     </Compile>
-    <Compile Include="Master_admin.cs" />
-    <Compile Include="Master_Kund.cs" />
-    <Compile Include="Master_Prospect.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

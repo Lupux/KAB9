@@ -546,19 +546,15 @@ namespace KAB9
                 paramCustomerid.Value = customerid;
                 dBCommand.Parameters.Add(paramCustomerid);
 
-                SqlParameter paramPlannedShipping = new SqlParameter("@PlannedShipping", SqlDbType.DateTime);
+                SqlParameter paramPlannedShipping = new SqlParameter("@timestamp", SqlDbType.DateTime);
                 paramPlannedShipping.Value = plannedShipping;
                 dBCommand.Parameters.Add(paramPlannedShipping);
 
-                SqlParameter paramOrderDate = new SqlParameter("@OrderDate", SqlDbType.DateTime);
-                paramOrderDate.Value = DateTime.Now;
-                dBCommand.Parameters.Add(paramOrderDate);
-
-                SqlParameter paramSumPrice = new SqlParameter("@phoneNr", SqlDbType.Money);
+                SqlParameter paramSumPrice = new SqlParameter("@price", SqlDbType.Money);
                 paramSumPrice.Value = sumPrice;
                 dBCommand.Parameters.Add(paramSumPrice);
 
-                SqlParameter paramOrderid = new SqlParameter("@OrderID", SqlDbType.Int);
+                SqlParameter paramOrderid = new SqlParameter("@orderID", SqlDbType.Int);
                 paramOrderid.Direction = ParameterDirection.Output;
                 dBCommand.Parameters.Add(paramOrderid);
 
@@ -702,35 +698,28 @@ namespace KAB9
             }
             return tmpList;
         }
-        public static void AddToOrderHistory(int productid, int customerid, int amountToDeliver, DateTime plannedShipping, double sumPrice)
+        public static void AddToOrderHistory(int orderid, int customerid, DateTime plannedShipping)
         {
+            //
+            // In order 
+            //
             try
             {
-                SqlCommand dBCommand = new SqlCommand("spAddToOrderHistory", dBConnection);
+                SqlCommand dBCommand = new SqlCommand("spAddOrderHistory", dBConnection);
                 dBCommand.CommandType = CommandType.StoredProcedure;
                 dBConnection.Open();
 
-                SqlParameter paramProductid = new SqlParameter("@pid", SqlDbType.Int);
-                paramProductid.Value = productid;
-                dBCommand.Parameters.Add(paramProductid);
+                SqlParameter paramOrderId = new SqlParameter("@orderid", SqlDbType.Int);
+                paramOrderId.Value = orderid;
+                dBCommand.Parameters.Add(paramOrderId);
 
                 SqlParameter paramCustomerid = new SqlParameter("@Customerid", SqlDbType.Int);
                 paramCustomerid.Value = customerid;
                 dBCommand.Parameters.Add(paramCustomerid);
 
-                SqlParameter paramSumPrice = new SqlParameter("@SumPrice", SqlDbType.Money);
-                paramSumPrice.Value = sumPrice;
-                dBCommand.Parameters.Add(paramSumPrice);
-
-                SqlParameter paramAmountToDeliver = new SqlParameter("@amountToDeliver", SqlDbType.Int);
-                paramAmountToDeliver.Value = amountToDeliver;
-                dBCommand.Parameters.Add(paramAmountToDeliver);
-
-                SqlParameter paramPlannedShipping = new SqlParameter("@PlannedShipping", SqlDbType.DateTime);
+                SqlParameter paramPlannedShipping = new SqlParameter("@timestamp", SqlDbType.SmallDateTime);
                 paramPlannedShipping.Value = plannedShipping;
                 dBCommand.Parameters.Add(paramPlannedShipping);
-
-
 
                 int result = dBCommand.ExecuteNonQuery();
 
