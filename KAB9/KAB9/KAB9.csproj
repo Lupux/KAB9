@@ -99,6 +99,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="MasterAdmin.aspx" />
     <Content Include="MasterCustomer.aspx" />
     <Content Include="MasterProspect.aspx" />
     <Content Include="packages.config" />
@@ -116,6 +117,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="MasterProspect.Master" />
     <Content Include="MasterCustomer.Master" />
+    <Content Include="MasterAdmin.Master" />
     <None Include="scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
@@ -139,6 +141,20 @@
     <Compile Include="Address.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="HashingUtils.cs" />
+    <Compile Include="MasterAdmin.aspx.cs">
+      <DependentUpon>MasterAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterAdmin.aspx.designer.cs">
+      <DependentUpon>MasterAdmin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MasterAdmin.Master.cs">
+      <DependentUpon>MasterAdmin.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterAdmin.Master.designer.cs">
+      <DependentUpon>MasterAdmin.Master</DependentUpon>
+    </Compile>
     <Compile Include="MasterCustomer.aspx.cs">
       <DependentUpon>MasterCustomer.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
