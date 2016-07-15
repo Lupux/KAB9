@@ -6,7 +6,7 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Produkt-ID</th>
                     <th>Produkter</th>
                     <th>Beskrivning</th>
                     <th>Pris(kr)</th>

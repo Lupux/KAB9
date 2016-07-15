@@ -41,8 +41,22 @@
                 </div>
 
                 <li>&nbsp</li>
+
                 <li>
                     <button type="button" class="btn btn-default">Logga in</button></li>
+                <li>&nbsp</li>
+                <li>&nbsp</li>
+                <li>&nbsp</li>
+
+                
+                <div class="container button-wrapper" style="align-content:flex-end">
+                    <button title="Din varukorg är tom" class="btn btn-danger btn-lg" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-shopping-cart"></span><span class="items">0</span></button>
+                </div>
+
+            <%--    <div class="container button-wrapper">
+                    <button class="btn btn-success btn-lg"><span class="glyphicon glyphicon-shopping-cart"></span><span class="items">1</span></button>
+                </div>--%>
+
             </ul>
         </div>
     </nav>
