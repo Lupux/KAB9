@@ -21,12 +21,12 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Home</a>
+                <a class="navbar-brand" href="MasterProspect.aspx">Home</a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Produkter</a></li>
-                <li><a href="#">Om Oss</a></li>
-                <li><a href="#">Kontakta Oss</a></li>
+                <li class="active"><a href="MasterProspect.aspx">Produkter</a></li>
+                <li><a href="OmOss.aspx">Om Oss</a></li>
+                <li><a href="KontaktaOss.aspx">Kontakta Oss</a></li>
 
                 <div class="col-sm-3 col-md-3">
                     <form class="navbar-form" role="search">
@@ -40,13 +40,13 @@
                 </div>
 
                 <li>
-                    <button type="button" class="btn btn-default">Registrera dig</button></li>
+                    <button type="button" class="btn btn-default"><a href="Registrering.aspx">Registrera dig</a></button></li>
                 <li>&nbsp</li>
                 <li>&nbsp</li>
                 <li>&nbsp</li>
 
                 <li>
-                    <button type="button" class="btn btn-default">Logga in</button></li>
+                    <button type="button" class="btn btn-default"><a href="LoggaIn.aspx">Logga in</a></button></li>
                 <li>&nbsp</li>
                 <li>&nbsp</li>
                 <li>&nbsp</li>
