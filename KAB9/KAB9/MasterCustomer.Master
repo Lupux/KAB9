@@ -1,10 +1,10 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterProspect.master.cs" Inherits="KAB9.MasterProspect" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterCustomer.master.cs" Inherits="KAB9.MasterCustomer" %>
 
 <!DOCTYPE html>
 
 <html>
 <head runat="server">
-    <title>MasterProspect</title>
+    <title>MasterCustomer</title>
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
     <script src="Scripts/jquery-1.9.1.js"></script>
     <script src="Scripts/bootstrap.min.js"></script>
@@ -27,6 +27,7 @@
                 <li class="active"><a href="#">Produkter</a></li>
                 <li><a href="#">Om Oss</a></li>
                 <li><a href="#">Kontakta Oss</a></li>
+                <li><a href="#">Mina Sidor</a></li>
 
                 <div class="col-sm-3 col-md-3">
                     <form class="navbar-form" role="search">
@@ -39,10 +40,6 @@
                     </form>
                 </div>
 
-                <li>
-                    <button type="button" class="btn btn-default">Registrera dig</button></li>
-                <li>&nbsp</li>
-                <li>&nbsp</li>
                 <li>&nbsp</li>
 
                 <li>
@@ -51,7 +48,7 @@
                 <li>&nbsp</li>
                 <li>&nbsp</li>
 
-
+                
                 <div class="container button-wrapper" style="align-content:flex-end">
                     <button title="Din varukorg är tom" class="btn btn-danger btn-lg" data-toggle="tooltip" data-placement="bottom"><span class="glyphicon glyphicon-shopping-cart"></span><span class="items">0</span></button>
                 </div>
@@ -59,12 +56,14 @@
             <%--    <div class="container button-wrapper">
                     <button class="btn btn-success btn-lg"><span class="glyphicon glyphicon-shopping-cart"></span><span class="items">1</span></button>
                 </div>--%>
+
             </ul>
         </div>
     </nav>
     <form id="form1" runat="server">
         <div>
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+            <asp:ContentPlaceHolder ID="main" runat="server">
+            </asp:ContentPlaceHolder>
         </div>
     </form>
 </body>

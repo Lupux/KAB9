@@ -99,6 +99,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="MasterAdmin.aspx" />
+    <Content Include="MasterCustomer.aspx" />
     <Content Include="MasterProspect.aspx" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
@@ -114,6 +116,8 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="MasterProspect.Master" />
+    <Content Include="MasterCustomer.Master" />
+    <Content Include="MasterAdmin.Master" />
     <None Include="scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
@@ -137,6 +141,34 @@
     <Compile Include="Address.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="HashingUtils.cs" />
+    <Compile Include="MasterAdmin.aspx.cs">
+      <DependentUpon>MasterAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterAdmin.aspx.designer.cs">
+      <DependentUpon>MasterAdmin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MasterAdmin.Master.cs">
+      <DependentUpon>MasterAdmin.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterAdmin.Master.designer.cs">
+      <DependentUpon>MasterAdmin.Master</DependentUpon>
+    </Compile>
+    <Compile Include="MasterCustomer.aspx.cs">
+      <DependentUpon>MasterCustomer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterCustomer.aspx.designer.cs">
+      <DependentUpon>MasterCustomer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MasterCustomer.Master.cs">
+      <DependentUpon>MasterCustomer.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterCustomer.Master.designer.cs">
+      <DependentUpon>MasterCustomer.Master</DependentUpon>
+    </Compile>
     <Compile Include="MasterProspect.aspx.cs">
       <DependentUpon>MasterProspect.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -151,9 +183,6 @@
     <Compile Include="MasterProspect.Master.designer.cs">
       <DependentUpon>MasterProspect.Master</DependentUpon>
     </Compile>
-    <Compile Include="Master_admin.cs" />
-    <Compile Include="Master_Kund.cs" />
-    <Compile Include="Master_Prospect.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
