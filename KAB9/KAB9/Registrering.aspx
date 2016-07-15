@@ -86,7 +86,7 @@
                         <input type="password" name="" class="form-control" id="" value="">
                     </div>
 
-                    <div class="form-group col-lg-6">
+                    <div class="form-group col-md-6">
                         <label>Repeat Password</label>
                         <input type="password" name="" class="form-control" id="" value="">
                     </div>
@@ -97,16 +97,36 @@
                     </div>
 
                     <div class="form-group col-lg-6">
-                        <label>Repeat Email Address</label>
+                        <label>Telefonnummer</label>
+                        <input type="" name="" class="form-control" id="" value="">
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label>Adress</label>
+                        <input type="" name="" class="form-control" id="" value="">
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label>Postnummer</label>
+                        <input type="" name="" class="form-control" id="" value="">
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label>Ort</label>
+                        <input type="" name="" class="form-control" id="" value="">
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label>Land</label>
                         <input type="" name="" class="form-control" id="" value="">
                     </div>
 
                     <div class="col-sm-6">
-                        <input type="checkbox" class="checkbox" />Sigh up for our newsletter
+                        <input type="checkbox" class="checkbox" />Ta emot nyhetsbrev om framtida erbjudanden
                     </div>
 
                     <div class="col-sm-6">
-                        <input type="checkbox" class="checkbox" />Send notifications to this email
+                        <input type="checkbox" class="checkbox" />Skicka notifikationer till denna mail
                     </div>
 
                 </div>
@@ -127,7 +147,7 @@
                         Acceptance of an order by us is dependent on our suppliers ability to provide the product. (Paragraph 13.5.6)
                     </p>
 
-                    <button type="submit" class="btn btn-primary">Register</button>
+                    <button type="submit" class="btn btn-primary">Registera</button>
                 </div>
             </div>
         </section>
